@@ -1,0 +1,18 @@
+1) Скопировать HTTPS ссылку внешнего репозитория.
+
+2) В терминал Git Bash по команде клонируем репозиторий:
+$ git clone https://github.com/Ayrat-S/group_28.git
+
+Выйдет окно, где нужно ввести токен.
+
+Если клонирование прошло успешно, терминал выдаст следующий текст:
+Cloning into 'group_28'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (3/3), done.
+
+3) Проверяем наличие созданной папки:
+ls -la
+
+

@@ -1,0 +1,501 @@
+ Тема: Конспект по первому курсу Git Hub.
+
+1) Скопировать HTTPS ссылку внешнего репозитория.
+
+2) В терминал Git Bash по команде клонируем репозиторий с внешнего на локальный (нужно находиться в той папке, куда нужно сохранить репозиторий):
+$ git clone https://github.com/Ayrat-S/group_28.git
+
+Выйдет окно, где нужно ввести токен.
+
+Если клонирование прошло успешно, терминал выдаст следующий текст:
+---
+Cloning into 'group_28'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (3/3), done.
+---
+
+3) Проверяем наличие созданной папки:
+$ ls -la
+
+Заходим в папку репозитория.
+
+4) Создаем файл names.json
+$ cat > names.json
+
+Через vim вносим текст
+vim names.json
+{
+        "p1":"Alex",
+        "p2":"Maria",
+        "p3":"Sergey"
+}
+
+***
+GIT STATUS - поиск неотслеживаемых файлов.
+***
+
+5) Ищем неотслеживаемые файлы:
+$ git status
+
+Неотслеживаемые файлы будут выделены красным цветом под этим текстом:
+---
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        names.json
+---
+
+***
+GIT ADD - чтобы файл был отслеживаемым.
+***
+
+6) Чтобы файл был отслеживаемым, применить команду:
+$ git add names.json (отследить конкретный файл)
+$ git add . (с точкой будут отслеживаться все файлы)
+
+Возможно терминал выдаст предупреждение со следующим текстом:
+---
+warning: LF will be replaced by CRLF in names.json.
+The file will have its original line endings in your working directory
+---
+
+Эти сообщения вызваны неправильным значением по умолчанию core.autocrlf в Windows.
+Плохие новости: значение необходимо настроить вручную.
+Хорошие новости: это следует делать ОДНО раз за установку git (также возможна настройка каждого проекта).
+
+Полное описание этого предупреждения здесь:
+https://ask-dev.ru/info/8685/git-replacing-lf-with-crlf
+
+7) Проверяем остлеживаемость файла:
+$ git status
+
+Отслеживаемые файлы будут выделены зеленым цветом под этим текстом:
+---
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+
+---
+
+***
+GIT COMMIT - сохранить на локальном уровне новый коммит (commit - совершить)
+***
+
+8) У гита есть такая логика, называется git commit
+commit это фотография состояния вашего файла в папке репозитория.
+При последующем изменении файла и его commit , можно переходить между этими коммитами.
+Коротко говоря это система версионности ваших файлов.
+
+9) После git add сделаем git commit с комментариями о том, какие изменения были сделаны в коммите:
+git commit -m "add names file"
+Если не применть -m , выскочит vim.
+
+При успешном выполнении команды терминал выдаст текст:
+---
+[main cdf6b27] add names file
+ 1 file changed, 5 insertions(+)
+ create mode 100644 names.json
+---
+
+10) Проверяем статус:
+git status
+
+При успешном выполнении команды терминал выдаст текст:
+---
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+---
+
+Тут терминал сообщает, что один коммит уже сделан и нет изменений. 
+Он предлагает использовать git push для публикации ваших локальных коммитов.
+
+В общих смыслах порядок публикации изменений во внешний репозиторий выглядит так:
+git add
+git commit
+git push
+
+***
+GIT PUSH - публикация изменений (коммитов) во внешний репозиторий (push - толкать).
+***
+
+11) Выпоняем публикацию изменений во внешний репозиторий:
+$ git push
+
+При успешном выполнении команды терминал выдаст текст:
+---
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 320 bytes | 320.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/Ayrat-S/group_28.git
+   fe5e444..cdf6b27  main -> main
+---
+
+Если терминал выдаст ошибку:
+---
+invalid user name or password
+---
+
+Это означает что локальный репозиторий не сконнектен с внешним.
+
+12) Во внешнем репозитории редактируем файл names.json (кнопка "карандаш"), затем внизу файла в разделе "Add an optional extended description" пишем комментарий о том, что было изменено.
+Жмем кнопку Commit Changes.
+
+***
+GIT FETCH - проверка изменений во внешнем репозитории (fetch - получить).
+***
+
+13) Для избежания разногласия версий локальных и внешних файлов, переходим на локальный репозиторий через терминал (открыть Git Bash в папке репозитория).
+Применяем команду:
+$ git fetch
+
+При успешном выполнении команды терминал выдаст текст:
+---
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 725 bytes | 6.00 KiB/s, done.
+From https://github.com/Ayrat-S/group_28
+   cdf6b27..2b40b82  main       -> origin/main
+---
+
+По тексту видно, что были имзенения в размере "725 bytes" в репозитории "group_28" с номером коммита "cdf6b27..2b40b82".
+
+При использовании git fetch, git собирает все коммиты из целевой ветки, которых нет в текущей ветке, и сохраняет их в локальном репозитории. Однако он не сливает их в текущую ветку.
+Чтобы слить коммиты в основную ветвь, нужно использовать git merge.
+
+***
+GIT PULL
+***
+
+14) Сливаем коммит с внешнего репозитория на локальный:
+$ git pull
+
+При успешном выполнении команды терминал выдаст текст:
+---
+Updating cdf6b27..2b40b82
+Fast-forward
+ names.json | 2 ++
+ 1 file changed, 2 insertions(+)
+---
+
+По тексту видно, что коммит с номером cdf6b27..2b40b82 обновлен, где в файле names.json изменен один файл, было два добавления (знаки +).
+
+Разберёмся, чем отличаются команды git pull и git fetch.
+
+git fetch - просто показывает, есть разница внешнего с локальным репозиторием или нет.
+git pull - покажет разницу и скачает изменения.
+
+При использовании pull, git пытается сделать всё за вас. Он сливает любые внесённые коммиты в ветку, в которой вы сейчас работаете. Команда pull автоматически сливает коммиты, не давая вам сначала просмотреть их. Если вы не пристально следите за ветками, выполнение этой команды может привести к частым конфликтам.
+
+При использовании fetch, git собирает все коммиты из целевой ветки, которых нет в текущей ветке, и сохраняет их в локальном репозитории. Однако он не сливает их в текущую ветку. Это особенно полезно, если вам нужно постоянно обновлять свой репозиторий, но вы работаете над функциональностью, неправильная реализация которой может негативно сказаться на проекте в целом. Чтобы слить коммиты в основную ветвь, нужно использовать merge.
+
+Грубо говоря, по дефолту git pull — это шорткод для последовательности двух команд: git fetch (получение изменений с сервера) и git merge (сливание в локальную копию).
+
+Источник:
+https://tproger.ru/explain/git-pull-and-git-fetch-whats-the-difference/
+
+15) Выполняем еще раз git fetch
+Терминал в ответ ничего не выдаст, т.к. во внешнем репозитории не было изменений.
+
+16) На внешнем репозитории вносим изменения в файл names.json, аналогично вышеуказанному пункту "12)".
+
+17) В терминале еще раз через fetch сохраняем изменения на локальный репозиторий (без сливания в текущую ветку):
+$ git fetch
+
+При успешном выполнении команды терминал выдаст текст:
+---
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 712 bytes | 5.00 KiB/s, done.
+From https://github.com/Ayrat-S/group_28
+   2b40b82..fec1660  main       -> origin/main
+---
+
+По тексту видно, что были имзенения в размере "712 bytes" в репозитории "group_28" с номером коммита "2b40b82..fec1660".
+
+18) Делаем git pull для клонирования изменений в ветку внутреннего репозитория:
+$ git pull
+
+При успешном выполнении команды терминал выдаст текст:
+---
+Updating 2b40b82..fec1660
+Fast-forward
+ names.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+---
+
+По тексту видно, что коммит с номером 2b40b82..fec1660 обновлен, где в файле names.json изменен один файл, было два добавления (знаки +) и одно удаление (знак -).
+
+19) Создаем файл, затем редактиреум:
+$ touch names.xml
+
+$ vim names.xml
+<xml>
+        <p1>"Alex"</p1>
+        <p2>"Alina"</p2>
+        <p3>"Natalia"</p3>
+
+20) Создаем файл, затем редактиреум:
+$ touch names.txt
+
+$ vim names.txt
+1) Victor
+2) Mickail
+3) Inna
+4) Marina
+
+21) Проверяем локальный репозиторий на наличие неотслеживаемых файлов во внешнем:
+$ git status
+
+Неотслеживаемые файлы будут выделены красным цветом под этим текстом:
+---
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        names.txt
+        names.xml
+---
+
+22) Добавляем новый коммит в локальный репозиторий:
+$ git add names.xml
+
+Возможно, при использовании Windows, при создании коммита нового файла, выйдет предупреждение:
+---
+warning: LF will be replaced by CRLF in names.xml.
+The file will have its original line endings in your working directory
+---
+
+Решение проблемы в вышеуказанном пункте "6)".
+
+23) Повторяем git status:
+$ git status
+
+Под этим текстом неотслеживаемые файлы будут выделены красным цветом, а отслеживаемые зеленым:
+---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   names.xml
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        names.txt
+---
+
+24) Если нужно, чтобы отслеживались сразу все файлы в репозитории:
+$ git add .
+
+25) Повторяем git status еще раз:
+$ git status 
+
+Отслеживаемые файлы будут выделены зеленым цветом под этим текстом:
+---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   names.txt
+        new file:   names.xml
+---
+
+26) После того, как файлы стали отслеживаемыми (отобраны к дальнейшему сохранению версии), создаем новые версии коммитов:
+$ git commit -m "add names files xml txt"
+
+При успешном выполнении команды терминал выдаст текст:
+---
+[main 5e37bca] add names files xml txt
+ 2 files changed, 9 insertions(+)
+ create mode 100644 names.txt
+ create mode 100644 names.xml
+---
+
+27) Изменим файл:
+$ vim names.txt
+1) Victor
+2) Mickail
+3) Inna
+4) Vika
+5) Alla
+
+28) Проверяем отслеживаемость файла после его имзенения:
+$ git status
+
+Терминал укажет, что names.txt был модифицирован, выделив его в сообщении красным:
+---
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   names.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+---
+
+Также, в этом сообщении терминал предлагает добавить отслеживаемость файла через git add или удалить изменения через git restore. К тому же информируется о том, что изменения еще не добавлены в коммит.
+
+29) Удалим последние изменения в файле через restore (это безвозвратное действие):
+$ git restore names.txt
+
+Текст внутри файла откатится на вариант как в пункте "20)":
+1) Victor
+2) Mickail
+3) Inna
+4) Marina
+
+30) Проверяем откат изменений в файле names.txt:
+$ git status
+
+Терминал выдаст:
+---
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+---
+
+Тут говорится о том, что рабочая ветка чистая, коммитить нечего.
+
+31) Изменим файл:
+$ vim names.txt
+1) Victor
+2) Mickail
+3) Inna
+4) Marina
+5) Anna
+
+32) Изменим файл:
+$ vim names.xml
+<xml>
+        <p1>"Alex"</p1>
+        <p2>"Alina"</p2>
+        <p3>"Natalia"</p3>
+        <p4>"Anton"</p4>
+        <p5>"Yaroslav"</p5>
+
+33) Проверяем отслеживаемость измененных файлов:
+$ git status
+
+Терминал выдаст:
+---
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   names.txt
+        modified:   names.xml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+---
+
+Тут видно что файлы модифицировались.
+В последней строчке есть информация: поскольку мы эти два файла уже раньше добавляли, нам еще раз git add делать не надо.
+Можно одной строчкой сразу сделать git add с коммитом, команда будет следующей:
+git commit -a
+git commit -am "текст" (сделать коммит с комментарием об изменениях)
+
+34) Делаем git add с коммитом:
+$ git commit -am "add names to files"
+
+Терминал выдаст:
+---
+[main df082e7] add names to files
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+---
+
+Здесь указано: 
+наименование ветки "main df082e7", 
+наш комментарий "add names to files", 
+изменено 2 файла, 3 добавления, 1 удаление
+
+35) Проверяем отслеживаемость:
+$ git status
+
+Терминал выдаст:
+---
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+---
+
+Ветка чистая, коммитить нечего.
+
+36) Хорошая практика перед push делать git pull.
+$ git pull
+
+Если не было встречных изменений, терминал выдаст:
+---
+Already up to date.
+---
+
+36) Делаем публикацию изменений (коммитов) во внешний репозиторий:
+$ git push
+
+Терминал выдаст:
+---
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (8/8), 827 bytes | 413.00 KiB/s, done.
+Total 8 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/Ayrat-S/group_28.git
+   fec1660..df082e7  main -> main
+---
+
+Разбираем текст:
+Enumerating objects - Перечисление объектов
+Counting objects - Счет объектов
+Delta compression using up to 8 threads - Дельта-сжатие с использованием до 8 потоков
+Compressing objects - Сжатие объектов
+Writing objects - написание объектов
+Total 8 (delta 1), reused 0 (delta 0), pack-reused 0 - Всего 8 (дельта 1), повторно использовано 0 (дельта 0), повторно использовано 0
+remote: Resolving deltas: 100% (1/1), done. - удаленный: Разрешение дельт: 100% (1/1), готово.
+To https://github.com/Ayrat-S/group_28.git
+   fec1660..df082e7  main -> main (в этих строках наименование репозитория + номер коммита).
+
+37) Короткая инструкция по публикации файлов с локального на внешний репозиторий:
+Put document to the folder of repository.
+$ git status
+$ git add file.txt
+$ git status
+$ git commit -m "Adding file about an instruction of commits publication"
+$ git push
+
+38) Короткая инструкция по клонированию репозитория, после изменения файла на внешнем репозитории:
+Изменить файл и отправить коммит.
+Зайти в папку локального репозитория через Git Bash.
+Подтянуть из внешнего репозитория новый коммит.
+$ git pull
+
+
+
+
+
+
+
+
+
+
+
+
