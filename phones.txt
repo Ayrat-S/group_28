@@ -1,2 +1,5 @@
 1) iphone 11
 2) iphone 12
+3) Android 10
+4) Android 11
+
