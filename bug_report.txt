@@ -1,0 +1,13 @@
+ID:
+Короткое описание - Summary, Title:
+Проект - Project:
+Версия ПО - Version:
+Серьезность - Severity:
+Приоритет - Priority:
+Статус - Status:
+Автор - Author:
+Назначен на - Assigned To:
+Шаги воспроизведения - Steps to Reproduce:
+Фактический Результат - Result:
+Ожидаемый результат - Expected Result:
+Прикрепленный файл - Attachment:
